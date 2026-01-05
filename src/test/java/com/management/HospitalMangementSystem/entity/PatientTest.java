@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
@@ -28,5 +29,13 @@ public class PatientTest {
     public void testTransactionMethods(){
         Patient p1 = patientService.getPatientById(1L);
         System.out.println(p1);
+    }
+
+    @Test
+    public void checkingRepositoryLayer(){
+        List<Patient> patients = patientRepository.findByBornAfterDate(LocalDate.of(2005,3,14));
+        for(Patient patient : patients){
+            System.out.println(patient);
+        }
     }
 }

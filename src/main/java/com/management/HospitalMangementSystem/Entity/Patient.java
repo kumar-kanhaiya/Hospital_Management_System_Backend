@@ -1,5 +1,6 @@
 package com.management.HospitalMangementSystem.Entity;
 
+import com.management.HospitalMangementSystem.type.BloodGroupType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,8 @@ public class Patient {
 
     private LocalDate birthDate;
 
-    private String bloodGroup;
+    @Enumerated(EnumType.STRING)
+    private BloodGroupType bloodGroup;
 
     private String email;
 
