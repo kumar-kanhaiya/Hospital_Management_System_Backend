@@ -6,6 +6,8 @@ import com.management.HospitalMangementSystem.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,4 +48,19 @@ public class PatientTest {
         int updated = patientRepository.updateNameWithId("Kanhaiya Sing" , 1L);
         System.out.println(updated);
     }
+
+    @Test
+    public void pageableTest(){
+        Page<Patient> allPatient = patientRepository.findAllPatient(PageRequest.of(1 ,2));
+
+        for(Patient patient: allPatient){
+            System.out.println(patient);
+        }
+    }
 }
+
+//    @Test
+//    public void pageableTest(){
+//
+//    }
+

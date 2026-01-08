@@ -3,6 +3,8 @@ package com.management.HospitalMangementSystem.repository;
 import com.management.HospitalMangementSystem.Entity.Patient;
 import com.management.HospitalMangementSystem.type.BloodGroupType;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,4 +36,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     @Modifying
     @Query("UPDATE Patient p SET p.name = :name WHERE p.id = :id ")
     int updateNameWithId(@Param("name") String name  , @Param("id") Long id);
+
+    @Query(value = "SELECT * FROM patient " , nativeQuery = true)
+    Page<Patient> findAllPatient(Pageable pageable); // use of pageable
 }

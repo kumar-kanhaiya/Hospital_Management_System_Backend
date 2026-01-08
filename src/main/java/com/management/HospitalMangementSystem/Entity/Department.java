@@ -1,42 +1,29 @@
 package com.management.HospitalMangementSystem.Entity;
 
-import com.management.HospitalMangementSystem.type.BloodGroupType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Patient {
+public class Department {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String name;
-
-    private LocalDate birthDate;
-
-    @Enumerated(EnumType.STRING)
-    private BloodGroupType bloodGroup;
-
-    private String email;
-
-    private String gender;
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDate createdAt;
-
 
 
 }
