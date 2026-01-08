@@ -2,8 +2,9 @@ package com.management.HospitalMangementSystem.repository;
 
 import com.management.HospitalMangementSystem.Entity.Patient;
 import com.management.HospitalMangementSystem.type.BloodGroupType;
-import org.hibernate.annotations.Parent;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,4 +24,14 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     @Query("SELECT p FROM Patient p WHERE p.birthDate > :birthDate")
     List<Patient> findByBornAfterDate(@Param("birthDate") LocalDate birthDate);
 
+    @Query("SELECT new com.management.HospitalMangementSystem.dto.BloodGroupCountResponseEntity( p.bloodGroup , Count(p) )" +
+            "FROM Patient  p group by p.bloodGroup") // jpl query
+//    List<Object[]> countEachBloodGroupType();
+    List<Object[]> countEachBloodGroupType();
+
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Patient p SET p.name = :name WHERE p.id = :id ")
+    int updateNameWithId(@Param("name") String name  , @Param("id") Long id);
 }

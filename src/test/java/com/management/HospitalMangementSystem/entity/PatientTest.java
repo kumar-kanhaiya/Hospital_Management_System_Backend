@@ -37,5 +37,13 @@ public class PatientTest {
         for(Patient patient : patients){
             System.out.println(patient);
         }
+
+        List<Object[]> bloodGroupList = patientRepository.countEachBloodGroupType();
+        for(Object[]  objects : bloodGroupList){
+            System.out.println(objects[0] + " " + objects[1]);
+        }
+
+        int updated = patientRepository.updateNameWithId("Kanhaiya Sing" , 1L);
+        System.out.println(updated);
     }
 }
