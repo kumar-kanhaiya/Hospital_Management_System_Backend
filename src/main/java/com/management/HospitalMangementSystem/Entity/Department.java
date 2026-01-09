@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,8 +29,12 @@ public class Department {
     private LocalDate createdAt;
 
     @ManyToMany
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
+    @JoinTable(
+            name = "my_dpt_doctors",
+            joinColumns = @JoinColumn(name = "dpt_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+    )
+    private Set<Doctor> doctors = new HashSet<>();
 
     @OneToOne // department owns the relationship
     private Doctor headDoctor;

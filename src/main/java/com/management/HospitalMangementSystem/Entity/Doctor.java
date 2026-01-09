@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -20,7 +23,7 @@ public class Doctor {
     private Long id;
 
     @Column(nullable = false , length = 100)
-    String name ;
+    private String name ;
 
     @Column(length = 100)
     private String specialization;
@@ -32,8 +35,11 @@ public class Doctor {
     @Column(updatable = false)
     private LocalDate createdAt;
 
+    @ManyToMany(mappedBy = "doctors")
+    private Set<Department> departments = new HashSet<>();
+
     @OneToMany(mappedBy = "doctor")
-    private List<Appointment> doctors;
+    private List<Appointment> doctors = new ArrayList<>();
 
 
 }
