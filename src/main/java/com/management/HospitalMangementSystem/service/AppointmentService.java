@@ -22,7 +22,7 @@ public class AppointmentService {
     private final PatientRepository patientRepository;
 
     @Transactional
-    public void createNewAppointment(Appointment appointment , Long doctorId , Long patientId){
+    public Appointment createNewAppointment(Appointment appointment , Long doctorId , Long patientId){
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(()-> new EntityNotFoundException("Doctor not found with id " + doctorId));
 
@@ -35,6 +35,19 @@ public class AppointmentService {
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        appointmentRepository.save(appointment);
+
+        patient.getAppointments().add(appointment); // to maintain bidirectional consistency
+        return appointmentRepository.save(appointment);
+    }
+
+    @Transactional
+    public Appointment reAssignAppointmentToAnotherDoctor(Long appointmentId , Long doctorId){
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(()-> new EntityNotFoundException("Appointment not found with id " + appointmentId));
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(()-> new EntityNotFoundException("Doctor not found with id" + doctorId));
+
+        appointment.setDoctor(doctor);
+        return  appointment;
     }
 }

@@ -1,15 +1,15 @@
 package com.management.HospitalMangementSystem.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Appointment {
@@ -34,7 +34,7 @@ public class Appointment {
     @JoinColumn( name = "patient_id" , nullable = false) // required field patient are required and not nullable
     private Patient patient;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "doctor_id" , nullable = false)
     private Doctor doctor;
 
