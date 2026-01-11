@@ -30,7 +30,7 @@ public class Appointment {
     private String status;
 
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn( name = "patient_id" , nullable = false) // required field patient are required and not nullable
     private Patient patient;
 

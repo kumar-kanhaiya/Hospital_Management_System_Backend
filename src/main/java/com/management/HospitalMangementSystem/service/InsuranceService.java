@@ -5,6 +5,7 @@ import com.management.HospitalMangementSystem.Entity.Patient;
 import com.management.HospitalMangementSystem.repository.InsuranceRepository;
 import com.management.HospitalMangementSystem.repository.PatientRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class InsuranceService {
 
-    @Autowired
-    private InsuranceRepository insuranceRepository;
+    private final InsuranceRepository insuranceRepository;
+    private final PatientRepository   patientRepository;
 
-    @Autowired
-    private PatientRepository   patientRepository;
-
+    @Transactional // either commited or rollback
     public Patient assignInsuranceToPatient(Insurance insurance , Long patientId){
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(()-> new EntityNotFoundException("Patient not found with id " + patientId));

@@ -7,6 +7,7 @@ import org.hibernate.annotations.Collate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -40,13 +41,13 @@ public class Patient {
     @Column(updatable = false)
     private LocalDate createdAt;
 
-    @OneToOne // this is the owning side
+    @OneToOne(cascade = {CascadeType.MERGE , CascadeType.PERSIST}) // this is the owning side
     @JoinColumn(
             name = "insurance_id"
     )
     private Insurance insurance;
 
-    @OneToMany(mappedBy = "patient") // this is not owning side this is inverse side
-    private List<Appointment> appointments ;
+    @OneToMany(mappedBy = "patient" , cascade = {CascadeType.REMOVE  } , orphanRemoval = true ) // this is not owning side this is inverse side
+    private List<Appointment> appointments = new ArrayList<>();
 
 }
