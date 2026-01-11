@@ -37,6 +37,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     @Query("UPDATE Patient p SET p.name = :name WHERE p.id = :id ")
     int updateNameWithId(@Param("name") String name  , @Param("id") Long id);
 
-    @Query(value = "SELECT * FROM patient " , nativeQuery = true)
-    Page<Patient> findAllPatient(Pageable pageable); // use of pageable
+    @Query(value = "select * from patient", nativeQuery = true)
+    Page<Patient> findAllPatients(Pageable pageable);// use of pageable
 }

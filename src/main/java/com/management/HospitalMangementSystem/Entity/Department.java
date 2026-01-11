@@ -31,8 +31,8 @@ public class Department {
     @ManyToMany
     @JoinTable(
             name = "my_dpt_doctors",
-            joinColumns = @JoinColumn(name = "dpt_id"),
-            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+            joinColumns = @JoinColumn(name = "dpt_id"),  // owning side column name
+            inverseJoinColumns = @JoinColumn(name = "doctor_id") // inverse side column name
     )
     private Set<Doctor> doctors = new HashSet<>();
 

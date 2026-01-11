@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -45,15 +46,15 @@ public class PatientTest {
             System.out.println(objects[0] + " " + objects[1]);
         }
 
-        int updated = patientRepository.updateNameWithId("Kanhaiya Sing" , 1L);
+        int updated = patientRepository.updateNameWithId("Kanhaiya Singh" , 1L);
         System.out.println(updated);
     }
 
     @Test
     public void pageableTest(){
-        Page<Patient> allPatient = patientRepository.findAllPatient(PageRequest.of(1 ,2));
+        Page<Patient> patientList = patientRepository.findAllPatients(PageRequest.of(1, 2, Sort.by("name")));
 
-        for(Patient patient: allPatient){
+        for(Patient patient: patientList) {
             System.out.println(patient);
         }
     }

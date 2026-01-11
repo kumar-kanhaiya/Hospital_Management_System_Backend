@@ -2,21 +2,19 @@ package com.management.HospitalMangementSystem.Entity;
 
 import com.management.HospitalMangementSystem.type.BloodGroupType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.Collate;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Data
-@ToString
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@ToString(exclude = {"appointments", "insurance"})
 public class Patient {
 
     @Id

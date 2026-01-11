@@ -15,7 +15,9 @@ import java.time.LocalDateTime;
 public class Appointment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -28,11 +30,11 @@ public class Appointment {
     private String status;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn( name = "patient_id" , nullable = false) // required field patient are required and not nullable
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "doctor_id" , nullable = false)
     private Doctor doctor;
 
