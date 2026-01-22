@@ -1,0 +1,41 @@
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.log
+*.class
+
+# =========================
+# IDEs
+# =========================
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.settings/
+.project
+.classpath
+
+# =========================
+# Spring Boot (SECRETS)
+# =========================
+src/main/resources/application.yml
+src/main/resources/application.properties
+
+# =========================
+# ENV FILES
+# =========================
+.env
+.env.*
+
+# =========================
+# Maven Wrapper
+# =========================
+.mvn/wrapper/maven-wrapper.jar
