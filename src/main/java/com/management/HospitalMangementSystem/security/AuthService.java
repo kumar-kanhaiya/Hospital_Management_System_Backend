@@ -6,6 +6,7 @@ import com.management.HospitalMangementSystem.dto.LoginResponseDto;
 import com.management.HospitalMangementSystem.dto.SignUpResponseDto;
 import com.management.HospitalMangementSystem.repository.UserRepository;
 import com.management.HospitalMangementSystem.Entity.type.AuthProviderType;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -41,18 +42,22 @@ public class AuthService {
         return new LoginResponseDto(token , user.getId());
     }
 
-    public SignUpResponseDto signup(LoginRequestDto signUpRequestDto) {
+    public User signUpInternal(LoginRequestDto signUpRequestDto){
         User user = userRepository.findByUsername(signUpRequestDto.getUsername())
                 .orElse(null);
         if(user != null){
             throw new IllegalArgumentException("User already exist");
         }
 
-        user  = userRepository.save(User
+        return userRepository.save(User
                 .builder()
                 .username(signUpRequestDto.getUsername())
                 .password(passwordEncoder.encode(signUpRequestDto.getPassword()))
                 .build());
+    }
+
+    public SignUpResponseDto signup(LoginRequestDto signUpRequestDto) {
+        User user = signUpInternal(signUpRequestDto);
 
         return new SignUpResponseDto(user.getId() , user.getUsername());
     }
@@ -72,9 +77,10 @@ public class AuthService {
         if(user == null && emailUser == null){
             // now implement signup flow
             String username = authUtil.determineUsernameFromOAuth2User(oAuth2User,registrationId , providerId);
-            SignUpResponseDto signUpResponseDto = signup( new LoginRequestDto(
+            user = signUpInternal( new LoginRequestDto(
                     username , null
             ));
+
         }
         else if(user != null){
             if(email != null && !email.isBlank() && !email.equals(user.getUsername())){
@@ -85,5 +91,15 @@ public class AuthService {
         else{
             throw new BadCredentialsException("This email is already registered with Provider " + emailUser.getProviderType());
         }
+
+        LoginResponseDto loginResponseDto = new LoginResponseDto(authUtil.generateAccessToken(user) , user.getId());
+        return ResponseEntity.ok(loginResponseDto);
     }
+
+    @PostConstruct
+    public void checkEnv() {
+        System.out.println("CLIENT_ID=" + System.getenv("GOOGLE_CLIENT_ID"));
+        System.out.println("CLIENT_SECRET=" + System.getenv("GOOGLE_CLIENT_SECRET"));
+    }
+
 }
