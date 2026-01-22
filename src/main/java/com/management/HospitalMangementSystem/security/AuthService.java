@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,6 +82,8 @@ public class AuthService {
                 userRepository.save(user);
             }
         }
-
+        else{
+            throw new BadCredentialsException("This email is already registered with Provider " + emailUser.getProviderType());
+        }
     }
 }
