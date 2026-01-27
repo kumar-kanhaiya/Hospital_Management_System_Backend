@@ -37,6 +37,10 @@ public class  Patient {
 //    @Column(nullable = false)
     private String gender;
 
+    @OneToOne
+    @MapsId // patient user kai bina sense nhi banata is case mai patient id = user id patient kai table m user id ban jayegi n ki patient id
+    private User user;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDate createdAt;

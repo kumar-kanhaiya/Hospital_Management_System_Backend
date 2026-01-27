@@ -24,6 +24,10 @@ public class Doctor {
     @Column(nullable = false , length = 100)
     private String name ;
 
+    @OneToOne
+    @MapsId
+    private User user;
+
     @Column(length = 100)
     private String specialization;
 
