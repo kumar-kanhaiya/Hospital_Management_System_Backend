@@ -1,5 +1,6 @@
 package com.management.HospitalMangementSystem.security;
 
+import com.management.HospitalMangementSystem.Entity.type.PermissionType;
 import com.management.HospitalMangementSystem.Entity.type.RoleType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,6 +43,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE , "/admin/**").hasAnyAuthority(PermissionType.APPOINTMENT_DELETE.name()
+                                , PermissionType.USER_MANAGE.name())
                                 .requestMatchers("/admin/**").hasRole(RoleType.ADMIN.name())
                                 .requestMatchers("/doctors/**").hasAnyRole(RoleType.DOCTOR.name() , RoleType.ADMIN.name())
 //                        .requestMatchers("/admin/**").authenticated()
