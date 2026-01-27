@@ -1,5 +1,6 @@
 package com.management.HospitalMangementSystem.security;
 
+import com.management.HospitalMangementSystem.Entity.type.RoleType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,6 +37,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/admin/**").hasRole(RoleType.ADMIN.name())
+                                .requestMatchers("/doctors/**").hasAnyRole(RoleType.DOCTOR.name() , RoleType.ADMIN.name()) 
 //                        .requestMatchers("/admin/**").authenticated()
 //                        .requestMatchers("/doctors/**").hasAnyRole("DOCTOR","ADMIN")
                                 .anyRequest().authenticated()
